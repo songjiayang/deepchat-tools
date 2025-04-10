@@ -120,10 +120,13 @@ var allStyles = map[string]string{
 }
 
 func resolveStyleKey(imageStyle string) string {
-	styleKey, ok := allStyles[strings.TrimSuffix(imageStyle, "风格")]
-	if !ok {
-		log.Printf("没有找到与 \"%s\" 匹配的风格, 使用\"网红日漫风\"", imageStyle)
-		return "img2img_ghibli_style"
+	trimStyle := strings.TrimSuffix(imageStyle, "风格")
+	trimStyle = strings.TrimSuffix(trimStyle, "风")
+
+	if styleKey, ok := allStyles[trimStyle]; ok {
+		return styleKey
 	}
-	return styleKey
+
+	log.Printf("没有找到与 \"%s\" 匹配的风格, 使用\"网红日漫风\"", imageStyle)
+	return "img2img_ghibli_style"
 }
