@@ -7,8 +7,9 @@ import (
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
 	"github.com/ThinkInAIXYZ/go-mcp/server"
 	"github.com/ThinkInAIXYZ/go-mcp/transport"
-	"github.com/songjiayang/deepchat-tools/bailian/tools"
+	btools "github.com/songjiayang/deepchat-tools/bailian/tools"
 	"github.com/songjiayang/deepchat-tools/pkg"
+	vtools "github.com/songjiayang/deepchat-tools/volc/tools"
 )
 
 var (
@@ -49,7 +50,7 @@ func main() {
 	)
 
 	// register poster tool
-	svr.RegisterTool(tools.NewPosterTool(), tools.NewPosterToolHandler())
-
+	svr.RegisterTool(btools.NewPosterTool(), btools.NewPosterToolHandler())
+	svr.RegisterTool(vtools.NewImageStyleTool(), vtools.NewImageStyleHandler())
 	pkg.RunWithSignalWaiter(svr)
 }
