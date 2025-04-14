@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/ThinkInAIXYZ/go-mcp/protocol"
@@ -15,20 +14,10 @@ import (
 	"github.com/volcengine/volc-sdk-golang/service/visual"
 )
 
-var (
-	sourceImageFolder string
-)
-
 func init() {
 	visual.DefaultInstance.Client.SetAccessKey(os.Getenv("VolcAccessKeyID"))
 	visual.DefaultInstance.Client.SetSecretKey(os.Getenv("VolcSecretAccessKey"))
 	visual.DefaultInstance.SetRegion("cn-north-1")
-
-	// resolve source image folder
-	sourceImageFolder = os.Getenv("SourceImageFolder")
-	if sourceImageFolder == "" {
-		sourceImageFolder, _ = os.UserHomeDir()
-	}
 }
 
 func NewImageStyleTool() *protocol.Tool {
@@ -58,7 +47,7 @@ func NewImageStyleHandler() server.ToolHandlerFunc {
 		log.Printf("输入参数为 %#v", params)
 
 		inputImage := params["image_path"].(string)
-		data, err := os.ReadFile(filepath.Join(sourceImageFolder, inputImage))
+		data, err := os.ReadFile(inputImage)
 		if err != nil {
 			log.Printf("read image with error: %v", err)
 			return nil, err
